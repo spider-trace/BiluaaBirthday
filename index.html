@@ -130,42 +130,59 @@
   </div>
 
   <script>
-    // Character counter
-    const messageInput = document.getElementById('message');
-    const charCount = document.getElementById('char-count');
+  // Character counter functionality
+  const messageInput = document.getElementById('message');
+  const charCount = document.getElementById('char-count');
+  const wishList = document.getElementById("wish-list");
 
-    messageInput.addEventListener('input', function () {
-      charCount.textContent = this.value.length;
+  // Load wishes from localStorage on page load
+  window.onload = function() {
+    const savedWishes = JSON.parse(localStorage.getItem("wishes")) || [];
+    savedWishes.forEach(wish => {
+      appendWishToList(wish.name, wish.message, wish.time);
     });
+  };
 
-    function sendWish() {
-      const name = document.getElementById("name").value.trim();
-      const message = document.getElementById("message").value.trim();
+  messageInput.addEventListener('input', function() {
+    charCount.textContent = this.value.length;
+  });
 
-      if (name === "" || message === "") {
-        alert("Please fill in both fields!");
-        return;
-      }
+  function sendWish() {
+    const name = document.getElementById("name").value.trim();
+    const message = document.getElementById("message").value.trim();
 
-      const wishList = document.getElementById("wish-list");
-      const now = new Date();
-      const timestamp = now.toLocaleString();
-
-      const wishDiv = document.createElement("div");
-      wishDiv.className = "wish";
-      wishDiv.innerHTML = `
-        <strong>${name}</strong><br/>
-        ${message}
-        <div class="timestamp">${timestamp}</div>
-      `;
-
-      wishList.prepend(wishDiv);
-
-      // Clear inputs
-      document.getElementById("name").value = "";
-      document.getElementById("message").value = "";
-      charCount.textContent = "0";
+    if (name === "" || message === "") {
+      alert("Please fill in both fields!");
+      return;
     }
-  </script>
+
+    const now = new Date();
+    const timestamp = now.toLocaleString();
+
+    // Save to localStorage
+    const newWish = { name, message, time: timestamp };
+    const existing = JSON.parse(localStorage.getItem("wishes")) || [];
+    existing.unshift(newWish);
+    localStorage.setItem("wishes", JSON.stringify(existing));
+
+    appendWishToList(name, message, timestamp);
+
+    // Reset form
+    document.getElementById("name").value = "";
+    document.getElementById("message").value = "";
+    charCount.textContent = "0";
+  }
+
+  function appendWishToList(name, message, timestamp) {
+    const wishDiv = document.createElement("div");
+    wishDiv.className = "wish";
+    wishDiv.innerHTML = `
+      <strong>${name}</strong><br/>
+      ${message}
+      <div class="timestamp">${timestamp}</div>
+    `;
+    wishList.prepend(wishDiv);
+  }
+</script>
 </body>
 </html>
