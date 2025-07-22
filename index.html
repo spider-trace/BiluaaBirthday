@@ -32,15 +32,9 @@
     }
 
     @keyframes pulseGlow {
-      0% {
-        box-shadow: 0 0 25px rgba(119, 51, 255, 0.4);
-      }
-      50% {
-        box-shadow: 0 0 35px rgba(51, 204, 255, 0.6);
-      }
-      100% {
-        box-shadow: 0 0 25px rgba(119, 51, 255, 0.4);
-      }
+      0%   { box-shadow: 0 0 25px rgba(119, 51, 255, 0.4); }
+      50%  { box-shadow: 0 0 35px rgba(51, 204, 255, 0.6); }
+      100% { box-shadow: 0 0 25px rgba(119, 51, 255, 0.4); }
     }
 
     input, textarea {
@@ -107,7 +101,7 @@
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    
+
     .char-counter {
       text-align: right;
       font-size: 12px;
@@ -115,7 +109,7 @@
       margin-top: -10px;
       margin-bottom: 10px;
     }
-    
+
     .timestamp {
       font-size: 12px;
       color: #0ff;
@@ -136,11 +130,11 @@
   </div>
 
   <script>
-    // Character counter functionality
+    // Character counter
     const messageInput = document.getElementById('message');
     const charCount = document.getElementById('char-count');
-    
-    messageInput.addEventListener('input', function() {
+
+    messageInput.addEventListener('input', function () {
       charCount.textContent = this.value.length;
     });
 
@@ -167,7 +161,7 @@
 
       wishList.prepend(wishDiv);
 
-      // Reset form
+      // Clear inputs
       document.getElementById("name").value = "";
       document.getElementById("message").value = "";
       charCount.textContent = "0";
